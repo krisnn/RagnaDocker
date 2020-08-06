@@ -1,5 +1,5 @@
        FROM ubuntu:latest 
- MAINTAINER Tyler Voll <tylervollbooks@gmail.com>
+ MAINTAINER nz <nostafu.z@gmail.com>
         ENV DEBIAN_FRONTEND noninteractive
        USER root
         ENV HOME /root
@@ -79,3 +79,5 @@
         ENV PHP_POST_MAX_SIZE 10M
         CMD bash
  ENTRYPOINT /boottime.sh
+ 
+# docker run -it -p 20000:80 -p 20001:443 -p 20002:3306 -p 20003:5121 -p 20004:6121 -p 20005:6900 -v ~/Desktop/datastore/:/datastore/ -v ~/Desktop/datastore/etc-apache2/:/datastore/etc/apache2/ -v ~/Desktop/datastore/etc-mysql/:/datastore/etc/mysql/ -v ~/Desktop/datastore/usr-bin-rathena/:/datastore/usr/bin/rathena/ -v ~/Desktop/datastore/var-lib-mysql/:/datastore/var/lib/mysql/ --name Aegis krisnn/ragnadocker

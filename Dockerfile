@@ -12,8 +12,7 @@
         ADD backup-athena.sh /
         ADD import-athena.sh /
     WORKDIR /usr/bin/rathena/		
-        RUN apt-get update \
-         && mkdir /datastore/ \
+        RUN mkdir /datastore/ \
          && mkdir /datastore/etc-apache2/ \
          && mkdir /datastore/etc-mysql/ \
          && mkdir /datastore/usr-bin-rathena/ \
@@ -24,27 +23,33 @@
          && mkdir /datastoresetup/etc-mysql/ \
          && mkdir /datastoresetup/usr-bin-rathena/ \
          && mkdir /datastoresetup/var-lib-mysql/ \
-         && mkdir /datastoresetup/var-www-html/ \
-         && apt-get -yqq dist-upgrade \
-         && apt-get -yqq --force-yes install apache2 \
-                                             g++ \
-                                             git \
-                                             libapache2-mod-php7.2 \
-                                             libmysqlclient-dev \
-                                             libpcre3-dev \
-                                             make \
-                                             mysql-client \
-                                             mysql-server \
-                                             php7.2-mysql \
-                                             php-apcu \
-                                             php7.2 \
-                                             rsync \
-                                             zlib1g-dev \
-         && echo "ServerName localhost" >> /etc/apache2/apache2.conf \
+         && mkdir /datastoresetup/var-www-html/ 
+		RUN apt-get update \
+			&& apt-get install -y software-properties-common \
+			&& rm -rf /var/lib/apt/lists/* \
+            && apt-get -yqq dist-upgrade
+        RUN apt-get install -yqq --reinstall apt-utils \
+		                                     apache2 \
+											 g++ \
+											 php7.2 \
+											 libapache2-mod-php \
+											 php7.2-mysql \
+											 libmysqlclient-dev \
+											 libpcre3-dev \
+											 make \
+											 mysql-client \
+											 mysql-server \
+											 php-apcu \
+											 rsync \
+											 zlib1g-dev \
+											 apt-transport-https 
+		RUN apt-get update \        
+		 && apt-get install -y git \
+		 && git clone https://github.com/rathena/FluxCP.git /var/www/html/fluxcp \
+         && git clone https://github.com/rathena/rathena.git /usr/bin/rathena
+		RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
          && rm -rf /var/www/html \
-         && git clone https://github.com/rathena/FluxCP.git /var/www/html/fluxcp \
-         && git clone https://github.com/rathena/rathena.git /usr/bin/rathena \
-         && ./configure --enable-packetver=20151104 \
+		 && ./configure --enable-packetver=20151104 \
          && make server \
          && service mysql start \
          && mysql < /import.sql \
@@ -71,7 +76,7 @@
      EXPOSE 80 443 3306 5121 6121 6900
      VOLUME /datastore/
      VOLUME /etc/apache2/
-     VOLUME /atc/mysql/
+     VOLUME /etc/mysql/
      VOLUME /usr/bin/rathena/
      VOLUME /var/lib/mysql/
      VOLUME /var/www/html/

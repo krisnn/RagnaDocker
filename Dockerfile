@@ -1,5 +1,4 @@
        FROM ubuntu:bionic-20200713 #ubuntu 18.04
- MAINTAINER nz <nostafu.z@gmail.com>
        USER root
 	    ENV HOME /root
         ADD boottime.sh /

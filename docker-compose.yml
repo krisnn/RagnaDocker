@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+    apache:
+        image: php:7.4-apache
+        build: './apache/php/'
+        container_name: apachePHP
+        restart: always
+        networks:
+          - frontend
+          - backend
+        ports:
+          - "8080:80"
+        volumes:
+          - $PWD/apache/htdocs/:/var/www/html/:rw
+          - $PWD/apache/php/:/usr/local/etc/php/:rw

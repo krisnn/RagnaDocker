@@ -1,4 +1,4 @@
-       FROM ubuntu:bionic-20200713 #ubuntu 18.04
+       FROM ubuntu:bionic-20200713
        USER root
 	    ENV HOME /root
         ADD boottime.sh /
@@ -16,9 +16,6 @@
             && mkdir /datastoresetup/usr-bin-rathena/ \
 		RUN apt-get update \
 			&& apt-get upgrade -y
-		RUN apt-get install -y build-essential \
-		                       zlib1g-dev \
-							   libpcre3-dev
 		RUN git clone https://github.com/rathena/FluxCP.git /usr/bin/rathena
 		RUN git clone https://github.com/rathena/rathena.git /usr/bin/rathena
 		RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
@@ -34,7 +31,7 @@
             && chown -R 33:33 /var/www/html/fluxcp/data \
 			&& chmod -R 777 /datastore \
             && chown -R 33:33 /datastore \
-			&& rsync -az /usr/bin/rathena/ /datastoresetup/usr-bin-rathena/
+			&& rsync -az /usr/bin/rathena/ /datastoresetup/usr-bin-rathena/ \
 			&& rsync -az /etc/apache2/ /datastoresetup/etc-apache2/ \
             && rsync -az /etc/mysql/ /datastoresetup/etc-mysql/ \
             && rsync -az /usr/bin/rathena/ /datastoresetup/usr-bin-rathena/ \

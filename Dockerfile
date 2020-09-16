@@ -16,8 +16,8 @@
             && mkdir /datastoresetup/usr-bin-rathena/ \
 		RUN apt-get update \
 			&& apt-get upgrade -y
-		RUN git clone https://github.com/rathena/FluxCP.git /usr/bin/rathena
-		RUN git clone https://github.com/rathena/rathena.git /usr/bin/rathena
+		RUN /bin/bash -c 'git clone https://github.com/rathena/FluxCP.git' /usr/bin/rathena
+		RUN /bin/bash -c 'git clone https://github.com/rathena/rathena.git' /usr/bin/rathena
 		RUN echo "ServerName localhost" >> /etc/apache2/apache2.conf \
             && rm -rf /var/www/html \
 		RUN ./configure --enable-epoll=yes --enable-prere=no --enable-vip=no --enable-packetver=20180620 \
